@@ -43,15 +43,14 @@ def create_map():
 def pass_over():
     response = json.loads(urllib.urlopen(
         'http://api.open-notify.org/iss-pass.json?lat=39&lon=-86').read())
-    print response
     print ("Next time the ISS will be over Indianapolis, IN: " +
            time.ctime(response['response'][-1]['risetime']))
 
 
 def main():
     find_astros()
-    create_map()
     pass_over()
+    create_map()
 
 
 if __name__ == "__main__":

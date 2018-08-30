@@ -19,6 +19,13 @@ def get_current_coords():
     return response['iss_position'], response['timestamp']
 
 
+def pass_over():
+    response = json.loads(urllib.urlopen(
+        'http://api.open-notify.org/iss-pass.json?lat=39&lon=-86').read())
+    return ("Next time the ISS will be over Indianapolis, IN: " +
+            time.ctime(response['response'][-1]['risetime']))
+
+
 def create_map():
     coords = get_current_coords()
     world = turtle.Screen()
@@ -32,6 +39,7 @@ def create_map():
     indy.resizemode('user')
     indy.shapesize(.25, .25, .1)
     indy.goto(-86, 39)
+    indy.write(pass_over(), False, align="center")
     iss.penup()
     iss.goto(float(coords[0]['longitude']), float(coords[0]['latitude']))
     world.bgpic('map.gif')
@@ -40,16 +48,8 @@ def create_map():
     world.exitonclick()
 
 
-def pass_over():
-    response = json.loads(urllib.urlopen(
-        'http://api.open-notify.org/iss-pass.json?lat=39&lon=-86').read())
-    print ("Next time the ISS will be over Indianapolis, IN: " +
-           time.ctime(response['response'][-1]['risetime']))
-
-
 def main():
     find_astros()
-    pass_over()
     create_map()
 
 
